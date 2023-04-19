@@ -1,3 +1,4 @@
+import os
 import pynvim
 from .openai_api import OpenAI_API
 
@@ -6,7 +7,12 @@ from .openai_api import OpenAI_API
 class Nvim_GPT(object):
     def __init__(self, vim):
         self.vim = vim
-        api_key = vim.vars['nvim_gpt_openai_api_key']
+        api_key = vim.vars.get('nvim_gpt_openai_api_key', None)
+        if api_key is None:
+            api_key = os.environ.get('OPENAI_API_KEY', None)
+            if api_key is None:
+                raise Exception(
+                    "No OpenAI API key provided. Please set it in your Neovim configuration or as an environment variable.")
         self.openai_api = OpenAI_API(api_key)
         self.buffer_number = None
         self.current_buffer = None
