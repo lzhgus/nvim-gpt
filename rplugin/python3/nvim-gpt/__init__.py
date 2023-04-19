@@ -3,7 +3,7 @@ from .openai_api import OpenAI_API
 
 
 @pynvim.plugin
-class Nvim_gpt(object):
+class Nvim_GPT(object):
     def __init__(self, vim):
         self.vim = vim
         api_key = vim.vars['nvim_gpt_openai_api_key']
