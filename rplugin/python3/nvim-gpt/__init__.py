@@ -18,7 +18,7 @@ class Nvim_GPT(object):
         self.current_buffer = None
         self.conversation_history = []
 
-    def send_message(self, message):
+    def send_message(self, message, is_gpt=False):
         conversation_history_str = '\n'.join(self.conversation_history)
         response = self.openai_api.send_message(
             message, conversation_history_str)
@@ -30,7 +30,9 @@ class Nvim_GPT(object):
         elif response.startswith("Error"):
             self.vim.command(f'echoerr "{response}"')
         else:
-            selected_code_title = "Selected Code\n-------------"
+            selected_code_title = "User: \n-------------" if is_gpt else "Selected Code: \n-------------"
+            explanation_title = "\nGPT: \n------------ " if is_gpt else "\nExplanation\n------------"
+
             if self.buffer_number is not None:
                 selected_code_title = "\n-------------\n" + selected_code_title
                 self.current_buffer = self.vim.current.buffer.number
@@ -43,7 +45,6 @@ class Nvim_GPT(object):
             formatted_code = f"{selected_code_title} \n{message}\n"
 
             # Format explanation``
-            explanation_title = "\nExplanation\n------------"
             formatted_explanation = response.replace('. ', '.\n')
             formatted_explanation = f"{explanation_title}\n{formatted_explanation}\n"
 
@@ -70,4 +71,4 @@ class Nvim_GPT(object):
     @pynvim.command('GPT', nargs='*')  # type: ignore
     def gpt_command(self, args):
         message = ' '.join(args)
-        self.send_message(message)
+        self.send_message(message, True)

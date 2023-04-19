@@ -2,6 +2,8 @@
 
 nvim-gpt Plugin is a powerful and intuitive plugin designed to enhance your coding experience. It provides code explanations and general chat with OpenAI's GPT-3.5-turbo within Neovim using the OpenAI API.
 
+![Is Manchester red or blue?](https://github.com/lzhgus/lzhgus.github.io/blob/main/nvim-gpt.png?raw=true)
+
 ## Features
 
 - Explain selected code snippets in simple terms using OpenAI API
@@ -51,7 +53,13 @@ end)
 
 ## Configuration
 
-Add the following line to your Neovim configuration (init.vim or init.lua) to configure your OpenAI API key:
+Option1: Export OPENAI_API_KEY to your environment 
+
+```sh
+export OPENAI_API_KEY= '<YOUR_API_KEY>'
+```
+
+Option2: Add the following line to your Neovim configuration (init.vim or init.lua) to configure your OpenAI API key:
 
 ```lua
 vim.g.nvim_gpt_openai_api_key = '<YOUR_API_KEY>'
